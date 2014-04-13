@@ -7,8 +7,7 @@ QUEUE *queue_init(void)
     QUEUE *q = malloc(sizeof(QUEUE));
     if(!q)
         return NULL;
-    pthread_mutex_init(&(q->mutex_read), NULL);
-    pthread_mutex_init(&(q->mutex_write), NULL);
+    pthread_mutex_init(&(q->mutex), NULL);
     
     q->first = NULL;
     q->last = NULL;
@@ -18,7 +17,7 @@ QUEUE *queue_init(void)
 
 void enqueue(QUEUE *queue, QUEUE_ITEM *item)
 {
-    if(0 == isEmpty(queue))
+    if(0 == queue->size)
     {
         queue->first = item;
         queue->last = item;
@@ -29,27 +28,20 @@ void enqueue(QUEUE *queue, QUEUE_ITEM *item)
         queue->last->next = item;
         item->next = NULL;
         queue->last = item;
-    }     
+    }
+    queue->size++;    
 }
 
 QUEUE_ITEM *dequeue(QUEUE *queue)
 {
     QUEUE_ITEM *tmp;
     tmp = queue->first;
-    queue->first = queue->first->next;
-
-    return tmp;
-}
-
-int queue_size(QUEUE *queue)
-{
-    return 0;
-}
-
-int isEmpty(QUEUE *queue)
-{
-    if((NULL == queue->last) && (NULL == queue->first))
-        return 0;
+    if(NULL == queue->first)
+        return NULL;
     else
-        return 1;
+    {
+        queue->first = queue->first->next;
+        queue->size--;
+        return tmp;
+    }
 }

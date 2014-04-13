@@ -21,14 +21,17 @@ int main()
         enqueue(queue, tmp);
     }
     
+    printf("Queue Size: %d\n", queue->size);
+    
     for(i = 0;i<5;i++)
     {
         QUEUE_ITEM *tmp;
         tmp = dequeue(queue);
-        printf("Item id: %d, Item data: %d\n", tmp->id, tmp->data);
+        if(NULL == tmp)
+            printf("end of queue\n");
+        else
+            printf("Item id: %d, Item data: %d\n", tmp->id, tmp->data);
     }
-
-    QUEUE_ITEM *item = malloc(sizeof(QUEUE_ITEM));
     
     return 0;
 }
