@@ -9,6 +9,7 @@ typedef struct
 {
     QUEUE_ITEM *first;
     QUEUE_ITEM *last;
+    pthread_mutex_t mutex; 
     int size;
 }QUEUE;
 
