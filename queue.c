@@ -3,9 +3,9 @@
 #include <pthread.h>
 #include "queue.h"
 
-QUEUE *queue_init(void)
+Queue *queue_init(void)
 {
-    QUEUE *q = malloc(sizeof(QUEUE));
+    Queue *q = malloc(sizeof(Queue));
     if(!q)
         return NULL;
     pthread_mutex_init(&(q->mutex), NULL);
@@ -16,7 +16,7 @@ QUEUE *queue_init(void)
     return q;
 }
 
-void enqueue(QUEUE *queue, QUEUE_ITEM *item)
+void enqueue(Queue *queue, QueueItem *item)
 {
     pthread_mutex_lock(&(queue->mutex));
     if(0 == queue->size)
@@ -34,11 +34,13 @@ void enqueue(QUEUE *queue, QUEUE_ITEM *item)
         queue->size++;
     }
     pthread_mutex_unlock(&(queue->mutex));  
+
+    return;
 }
 
-QUEUE_ITEM *dequeue(QUEUE *queue)
+QueueItem *dequeue(Queue *queue)
 {
-    QUEUE_ITEM *tmp;
+    QueueItem *tmp;
 
     pthread_mutex_lock(&(queue->mutex));
 
